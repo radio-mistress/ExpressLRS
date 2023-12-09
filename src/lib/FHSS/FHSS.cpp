@@ -34,6 +34,10 @@ const fhss_config_t domains[] = {
      FREQ_HZ_TO_REG_VAL(433050000), FREQ_HZ_TO_REG_VAL(434790000), 20, // Radio 1: 433 Wide
      FREQ_HZ_TO_REG_VAL(902000000), FREQ_HZ_TO_REG_VAL(928000000), 40  // Radio 2: 915 US
     },
+    {"144US_433Wide", 
+     FREQ_HZ_TO_REG_VAL(144390000), FREQ_HZ_TO_REG_VAL(144490000), 3, // Radio 1: 144 US 
+     FREQ_HZ_TO_REG_VAL(433050000), FREQ_HZ_TO_REG_VAL(434790000), 8 // Radio 2: 433 Wide
+    },
     //todo  Add the ISM 2.4GHz domain for SX128X radios
    // {"ISM2G4", 
    //  FREQ_HZ_TO_REG_VAL(2400400000), FREQ_HZ_TO_REG_VAL(2479400000), 80,
