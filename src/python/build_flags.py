@@ -107,7 +107,6 @@ def process_build_flag(define):
                 sys.stdout.write("DJI MSP ARM CHANNEL: " + ArmChannel + "\n")
         if not define in build_flags:
             build_flags.append(define)
-            
 def parse_flags(path):
     global build_flags
     global json_flags
