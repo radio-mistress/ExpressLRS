@@ -61,6 +61,14 @@ def process_json_flag(define):
                 json_flags['rcvr-uart-baud'] = int(dequote(parts.group(2)))
             else:
                 json_flags['airport-uart-baud'] = int(dequote(parts.group(2)))
+        if parts.group(1) == "DJI_MSP_ARM_CHANNEL": 
+            parts = re.search(r"-D(.*)\s*=\s*\"?([0-9]+).*\"?$", define)
+            json_flags['dji-msp-arm-channel'] = int(dequote(parts.group(2)))
+        if parts.group(1) == "ALWAYS_ON_DJI":  
+            if parts.group(2).lower() in ['1', 'true', 'yes','flyfast']:
+                json_flags['always-on-dji'] = True
+            else:
+                json_flags['always-on-dji'] = False
     if define == "-DUNLOCK_HIGHER_POWER"  and not isRX:
         json_flags['unlock-higher-power'] = True
     if define == "-DLOCK_ON_FIRST_CONNECTION" and isRX:
@@ -86,8 +94,16 @@ def process_build_flag(define):
             parts = re.search(r"(.*)=\w*'?\"(.*)\"'?$", define)
             if parts and parts.group(2):
                 env['DEVICE_NAME'] = parts.group(2)
-        if not define in build_flags:
-            build_flags.append(define)
+        if "ALWAYS_ON_DJI=" in define:
+            parts = re.search(r"(.*)=\s*(.*)$", define)
+            if parts and parts.group(2):
+                define = "-DALWAYS_ON_DJI"
+        if "DJI_MSP_ARM_CHANNEL=" in define:
+            parts = re.search(r"(.*)=\s*(.*)$", define)
+            if parts and parts.group(2):
+                ArmChannel = parts.group(2)
+                define = "-DDJI_MSP_ARM_CHANNEL=" + ArmChannel
+                sys.stdout.write("DJI MSP ARM CHANNEL: " + ArmChannel + "\n")
 
 def parse_flags(path):
     global build_flags

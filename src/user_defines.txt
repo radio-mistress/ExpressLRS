@@ -119,3 +119,9 @@
 
 # Use an ELRS TX and RX as a transparent UART over the air
 #-DUSE_AIRPORT_AT_BAUD=9600
+
+# Set dji MSP Arming always on, (for use on cooled vtxs)
+#-DALWAYS_ON_DJI=true
+
+# Set dji MSP Arming channel (for switching VTX separate to arm state)
+#-DDJI_MSP_ARM_CHANNEL=6

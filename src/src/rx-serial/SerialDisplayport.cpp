@@ -35,8 +35,17 @@ void SerialDisplayport::send(uint8_t messageID, void * payload, uint8_t size, St
 
 uint32_t SerialDisplayport::sendRCFrame(bool frameAvailable, bool frameMissed, uint32_t *channelData)
 {
-    // Use ch5 to check armed state
-    bool armed = channelData[4] > CRSF_CHANNEL_VALUE_MID;
+
+    #ifdef ALWAYS_ON_DJI
+        bool armed = true; 
+    #elif defined(DJI_MSP_ARM_CHANNEL)
+        // If DJI_MSP_ARM_CHANNEL is defined, use the specified channel to determine the armed state
+        // Note: DJI_MSP_ARM_CHANNEL is expected to be a 1-based index, so subtract 1 for 0-based array access
+        bool armed = channelData[DJI_MSP_ARM_CHANNEL - 1] > CRSF_CHANNEL_VALUE_MID;
+    #else
+        // If neither ALWAYS_ON_DJI nor DJI_MSP_ARM_CHANNEL is defined, default to using channel 5 (index 4)
+        bool armed = channelData[4] > CRSF_CHANNEL_VALUE_MID;
+    #endif
 
     // Send extended status MSP
     msp_status_DJI_t status_DJI;
