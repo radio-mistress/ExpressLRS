@@ -94,6 +94,7 @@ def process_build_flag(define):
             parts = re.search(r"(.*)=\w*'?\"(.*)\"'?$", define)
             if parts and parts.group(2):
                 env['DEVICE_NAME'] = parts.group(2)
+        
         if "ALWAYS_ON_DJI=" in define:
             parts = re.search(r"(.*)=\s*(.*)$", define)
             if parts and parts.group(2):
@@ -104,7 +105,9 @@ def process_build_flag(define):
                 ArmChannel = parts.group(2)
                 define = "-DDJI_MSP_ARM_CHANNEL=" + ArmChannel
                 sys.stdout.write("DJI MSP ARM CHANNEL: " + ArmChannel + "\n")
-
+        if not define in build_flags:
+            build_flags.append(define)
+            
 def parse_flags(path):
     global build_flags
     global json_flags
